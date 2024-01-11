@@ -1,0 +1,81 @@
+<!-- header section -->
+<header class="header">
+
+  <style>
+    
+  </style>
+  <!-- logo image & logo name -->
+  <div class="logo">
+    <a href="/"
+      ><img src="https://www.freeiconspng.com/thumbs/laptop-icon/laptop-icon-24.png" alt="Laptop Cloud  " class="logo-img"
+    /></a>
+
+    <h1 class="logo-name">Laptop Cloud</h1>
+  </div>
+  <!-- menu list  -->
+  <nav class="navbar">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/product/">Product</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/contact/">Contact</a></li>
+    </ul>
+  </nav>
+  <!-- icon -->
+  <div class="icon">
+    <div class="fa fa-bars" id="menu-btn"></div>
+    <div class="fa fa-search" id="search-btn"></div>
+    <a href="{% url 'get_cart' %}">
+        <div class="fa fa-shopping-cart" id="cart-btn">{{ total_quantity }}</div>
+    </a>
+    {% if request.user.is_authenticated %}
+    <a style="font-size:2rem; color:black;" href="{% url 'my_orders' %}">My Orders</a>
+    {%endif%}
+   
+</div>
+<div>
+  {% if request.user.is_authenticated %}
+  <div style="display:flex; ">
+         
+    <h1 style="font-size:2rem; color:black; margin-right:1rem;" class="dropbtn">{{ request.user.username }}</h1>
+    <a style="font-size:2rem; color:black; margin-right:1rem;  " href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket"></i></a>
+  </div>
+ 
+</div>
+{% else %}
+<a style="font-size:2rem; color:black; margin-right:1rem;" href="{% url 'login' %}">Login</a>
+{% endif %}
+</div>
+
+
+
+
+
+
+
+
+
+
+  {% comment %} <div class="icon">
+    <div class="fa fa-bars" id="menu-btn"></div>
+    <div class="fa fa-search" id="search-btn"></div>
+    <a href="{% url 'get_cart' %}"><div class="fa fa-shopping-cart" id="cart-btn">{{total_quantity}}</a>
+
+    </div>
+     {% if request.user.is_authenticated %} 
+    <div>
+      <h5>Hello,{{request.user}}</h5>
+    </div>
+    {% else %}
+    <a href="{%url 'login' %} ">login</a>
+    {% endif %}
+  </div> {% endcomment %}
+  <!-- search bar code -->
+  <form class="search-form">
+    <input type="search" id="search-box" placeholder="Search Here......" />
+    <label for="search-box" class="fa fa-search"> </label>
+  </form>
+
+ 
+</header>
+<!-- header section -->

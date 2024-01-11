@@ -1,0 +1,156 @@
+{% extends "index.html" %} {% block content %}
+<style>
+  .products {
+    text-align: center;
+  }
+
+  .card-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    padding: 1.3rem;
+    margin: 1rem;
+  }
+
+  .card {
+    width: 18%;
+    margin: 10px;
+    padding: 15px;
+    border: 1px solid #351818;
+    border-radius: 5px;
+    background-color: #ffffff;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+
+  .card-footer {
+    margin: 1rem;
+  }
+
+  .card-actions {
+    text-align: center;
+  }
+
+  .btn-details,
+  .btn-add-to-cart {
+    background-color: #6e81c4;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .btn-details:hover,
+  .btn-add-to-cart:hover {
+    background-color: #3e8e41; /* Slightly darker color on hover */
+  }
+  body {
+  background-image: url('https://c1.wallpaperflare.com/preview/233/200/864/brick-wall-grey-texture.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+}
+</style>
+<main class="products">
+  <h1 style="margin-top:2rem">Products</h1>
+  <div class="border"></div>
+
+  <div class="card-grid">
+    {% for product in products %}
+    <div class="card">
+      {% if product.image %}
+      <img
+        style="width: 50%; height: auto; border-radius: 5px"
+        src="{{ product.image.url }}"
+        alt="{{ product.name }} "
+      />
+      {% endif %}
+
+      <h3 class="product-title">{{ product.name }}</h3>
+
+      <div class="card-footer">
+        <div class="rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+        </div>
+        <div class="price">{{ product.price }} rs</div>
+        <div>stock:{{ product.stock }}</div>
+        <div>{{ product.status }}</div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-details">
+          <a href="{% url 'product_detail' product.id %}">
+            <span>Details</span>
+          </a>
+        </button>
+        {% if request.user.is_authenticated %}
+        <button
+          class="btn-add-to-cart"
+          onclick="handleAddToCart({{ product.id }})"
+        >
+          <span>Add to Cart</span>
+        </button>
+        {% else %}
+        <button type="button" disabled class="btn-add-to-cart">
+          <span>Add to Cart</span>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    function handleAddToCart(productId) {
+      fetch(`/add-to-cart/${productId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), // Get CSRF token from cookie
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            //alert("Item added to cart");
+            window.location.href = "/cart/";
+            // Update UI or show success message
+          } else {
+            // Handle product not added to cart
+            console.error("Failed to add product to cart");
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding product to cart:", error);
+        });
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+  {% include "footer.html" %}
+</main>
+{% endblock content %}

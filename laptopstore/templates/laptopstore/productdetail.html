@@ -1,0 +1,128 @@
+{% extends "index.html" %} {% block content %}
+<style>
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+  }
+
+  header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+  }
+
+  .container {
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  img {
+      max-width: 100%;
+      height: auto;
+  }
+
+  h1 {
+      color: #333;
+  }
+
+  p {
+      color: #666;
+  }
+
+  .price {
+      color: #1b1817;
+      font-size: 24px;
+      font-weight: bold;
+  }
+
+  button {
+      background-color: #6e81c4;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+  }
+
+  button:hover {
+      background-color: #333;
+  }
+</style>
+<main>
+  <div>
+    <h1>product detail</h1>
+    <img
+      src="{{ product.image.url }}"
+      alt="{{ product.name }}"
+      style="width: 10%; height: auto; border-radius: 5px"
+    />
+    <h3 class="product-title">{{ product.name }}</h3>
+    <h3>detail:{{product.description}}</h3>
+    <div class="price">{{ product.price }} rs</div>
+    {% if request.user.is_authenticated %}
+        <button
+          class="btn-add-to-cart"
+          onclick="handleAddToCart({{ product.id }})"
+        >
+          <span>Add to Cart</span>
+        </button>
+        {% else %}
+        <button type="button" disabled class="btn-add-to-cart">
+          <span>Add to Cart</span>
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    <a href="{{ request.META.HTTP_REFERER }}">Go Back</a>
+  </div>
+  <script>
+    function handleAddToCart(productId) {
+      fetch(`/add-to-cart/${productId}/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), // Get CSRF token from cookie
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            //alert("Item added to cart");
+            window.location.href = "/cart/";
+            // Update UI or show success message
+          } else {
+            // Handle product not added to cart
+            console.error("Failed to add product to cart");
+          }
+        })
+        .catch((error) => {
+          console.error("Error adding product to cart:", error);
+        });
+    }
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          // Does this cookie string begin with the name we want?
+
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+  {% include "footer.html" %}
+</main>
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% load static %}
+{% block content %}
+<main>
+  <h1>Checkout</h1>
+  <form method="POST" >
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+
+    <label for="address">Address:</label><br>
+    <input type="text" id="address" name="address"><br>
+    <label for="payment_method">Payment Method:</label><br>
+    <select name="payment_method" id="payment_method">
+      <option value="Credit Card">Credit Card</option>
+      <option value="Debit Card">Debit Card</option>
+      <option value="PayPal">PayPal</option>
+    </select><br>
+    <input type="submit" value="Place Order">
+  </form>
+  {% include "footer.html" %}
+</main>
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends "index.html" %} {% block content %}
+<style>
+  .about-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 120px;
+}
+
+.left-image {
+    flex: 1;
+    padding-right: 110px; /* Adjust as needed */
+}
+
+.left-image img {
+    max-width: 100%; /* Ensures the image doesn't overflow */
+    display: block;
+}
+
+.right-text {
+    flex: 2; /* Adjust the ratio as needed */
+}
+
+/* Your existing styles for about-heading and about-para */
+.about-heading {
+    /* Your styles for the heading */
+    font-size: 3rem;
+    margin-bottom: 4rem;
+
+}
+
+.about-para {
+    font-size: 2rem;
+}
+body {
+  background-image: url('https://www.vertexinc.com/sites/default/files/2021-09/Marketplace-EU-VAT-B2C-goods.jpg');
+  background-size: cover; 
+  background-repeat: no-repeat; 
+}
+.content {
+  padding: 20px;
+}
+
+</style>
+<main>
+   
+       
+    
+        <div class="main">
+            <div class="navbar">
+                <div class="icon">
+                    <h2 class="logo"></h2>
+                </div>
+                <head>
+                  <title>Background Image</title>
+                  <link rel="stylesheet" href="style.css">
+                </head>
+                <main >
+                  <div class="about-container">
+                    <div class="left-image">
+                        <img src="https://img.freepik.com/premium-photo/laptop-sits-table-plant-potted-plant_244157-4322.jpg" alt="Laptop Store Image">
+                    </div>
+                    <div class="right-text">
+                        <h2 class="about-heading">ABOUT</h2>
+                        <p class="about-para">
+                         <h2> We offer a wide range of the latest technology products including laptops, desktop PC’s, laptop bags, sleeves, accessories and much more for sale at much reasonable prices. We have all types of products and accessories of the top manufacturers, such as HP, Dell, Lenovo. We can bargain prices and provide you with the most competitive cost on the market! We are proud of the expertise of our experts who ensure that we have products that are suited to your needs regardless of whether you need it for basic office work or you’re student, editor, or a gamer.
+                         </h1>
+                        </p>                     
+                    </div>
+                </div> 
+                
+      
+</main>
+{% endblock content %}
